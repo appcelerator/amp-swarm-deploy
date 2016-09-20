@@ -1,0 +1,5 @@
+---
+  - name: Clone AMP git repo
+    git: repo=https://github.com/appcelerator/amp.git
+         dest="{{ amp_base_directory }}/amp"
+

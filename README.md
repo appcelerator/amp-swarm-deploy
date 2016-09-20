@@ -1,6 +1,9 @@
 # Swarm Cluster on AWS with Docker 1.12
 
+Based on the Docker 1.12rc ansible playbook from https://github.com/skippbox/ansible-swarm
+
 The main playbook creates a cluster of EC2 instances on AWS, makes sure Docker 1.12+ is installed, and initializes Swarm on it.
+Then it deploys AMP and starts the services.
 
 ## Amazon resources
 

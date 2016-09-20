@@ -1,0 +1,4 @@
+---
+- include: prerequisites.yml
+- include: clone-amp-repo.yml
+- include: start-amp.yml

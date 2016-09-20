@@ -1,0 +1,12 @@
+---
+  - name: install git
+    package: name=git state=latest
+  - name: prepare amp directory
+    file: path="{{ amp_base_directory }}" state=directory mode=0755
+  - name: prepare docker config directory
+    file: path=/root/.docker state=directory owner=root mode=0700
+  - name: credentials for AMP images
+    template: src=docker-config.json dest=/root/.docker/config.json
+    when: registry_auth is defined
+  - name: prepare Docker registry data directory
+    file: path=/root/registry/data state=directory owner=root mode=0700

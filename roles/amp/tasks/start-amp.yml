@@ -1,0 +1,22 @@
+---
+  - name: Check if AMP is already started
+    shell: ./swarm ls | grep -q "amplifier"
+    args:
+      chdir: "{{ amp_base_directory }}/amp/"
+    register: amp_is_started
+    ignore_errors: True
+  - name: Pull AMP images
+    shell: ./swarm pull
+    args:
+      chdir: "{{ amp_base_directory }}/amp/"
+    when: amp_is_started|failed
+  - name: start AMP
+    shell: ./swarm start
+    args:
+      chdir: "{{ amp_base_directory }}/amp/"
+    when: amp_is_started|failed
+  - name: restart AMP
+    shell: ./swarm stop ; sleep 10 ; ./swarm start
+    args:
+      chdir: "{{ amp_base_directory }}/amp/"
+    when: amp_is_started|success

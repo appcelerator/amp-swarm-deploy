@@ -1,0 +1,4 @@
+---
+# file: roles/amp/defaults/main.yml
+# if not overridden in inventory or as a parameter, this is the value that will be used
+amp_base_directory: /go/src/github.com/appcelerator

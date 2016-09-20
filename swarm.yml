@@ -43,3 +43,11 @@
   become: yes
   roles:
     - {role: swarmnode, tags: ["docker", "swarm"]}
+
+- hosts: swarm_mgr
+  become: yes
+  vars_files:
+    - dist.yml
+    - custom.yml
+  roles:
+    - {role: amp, tags: application}
