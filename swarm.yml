@@ -6,12 +6,14 @@
     - dist.yml
     - custom.yml
   roles:
-    - {role: key, tags: provisioning}
+    - {role: key, tags: ["key","provisioning"]}
     - {role: provisioning, tags: provisioning}
 
 - name: Refresh Inventory
   hosts: localhost
   connection: local
+  tags:
+    - provisioning
   tasks:
     - name: Refresh Inventory
       meta: refresh_inventory
