@@ -1,0 +1,11 @@
+---
+  - name: look for AMI id
+    ec2_ami_find:
+      name: "{{ ami_name }}"
+      region: "{{ aws_region }}"
+      sort: name
+      sort_order: descending
+      sort_end: 1
+      no_result_action: fail
+    register: ami_find
+    tags: ami

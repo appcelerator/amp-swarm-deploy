@@ -1,0 +1,7 @@
+---
+  - name: Information
+    debug: msg="Deploying on VPC {{ aws_vpc_id }}, region {{ aws_region }} with profile {{ aws_profile }}"
+  - include: set_facts.yml
+  - include: create_secgroup.yml
+  - include: ec2_instances.yml
+  - include: update_inventory.yml

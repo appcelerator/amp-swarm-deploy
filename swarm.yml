@@ -1,14 +1,43 @@
 ---
-- hosts: localhost
+- name: Create Infrastructure
+  hosts: localhost
   connection: local
-  vars:
-    ssh_key: swarm
-    aws_region: eu-west-1
-    swarm_num_nodes: 2
-    swarm_security_group_name: swarm
-    swarm_template: ami-054bc176 
-    swarm_instance_type: m3.large
-
+  vars_files:
+    - dist.yml
+    - custom.yml
   roles:
-    - common
-    - swarm
+    - {role: key, tags: infrastructure}
+    - {role: infra, tags: infrastructure}
+
+- name: Refresh Inventory
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Refresh Inventory
+      meta: refresh_inventory
+
+- name: Wait for remote hosts
+  hosts: swarm
+  gather_facts: False
+  tags:
+    - infrastructure
+  tasks:
+    - local_action: wait_for port=22 host="{{ ansible_host }}"  search_regex=OpenSSH delay=45 timeout=60
+
+- name: Install Docker 1.12
+  hosts: swarm
+  become: yes
+  roles:
+    - {role: docker, tags: docker}
+
+- name: Setup Swarm manager
+  hosts: swarm_mgr
+  become: yes
+  roles:
+    - {role: swarmmanager, tags: docker}
+
+- name: Setup Swarm nodes
+  hosts: swarm_node
+  become: yes
+  roles:
+    - {role: swarmnode, tags: docker}

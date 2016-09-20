@@ -1,0 +1,8 @@
+  - name: Check if Swarm is initialized
+    shell: docker info | grep -q "^Swarm"':'" active"
+    register: swarm_initialized
+    ignore_errors: True
+  - name: Swarm Join
+    shell: docker swarm join "{{ hostvars[groups['swarm_mgr'][0]]['private_ip'] }}":2377 --token "{{ hostvars[groups['swarm_mgr'][0]]['node_join_token'] }}"
+    tags: join
+    when: swarm_initialized|failed

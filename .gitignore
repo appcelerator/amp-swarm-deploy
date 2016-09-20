@@ -1,0 +1,7 @@
+inventory
+*.retry
+*.bak
+.*.swp
+custom.yml
+custom.*.yml
+

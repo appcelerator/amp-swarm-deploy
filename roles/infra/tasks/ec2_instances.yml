@@ -1,0 +1,51 @@
+  - name: Swarm manager node
+    ec2:
+      region: "{{ aws_region }}"
+      image: "{{ swarm_template }}"
+      vpc_subnet_id: "{{ aws_subnet_id }}"
+      profile: "{{ aws_profile }}"
+      instance_type: "{{ swarm_instance_type }}"
+      key_name: "{{ ssh_key }}"
+      group: "{{ swarm_security_group_name }}"
+      instance_tags: 
+        Name: Swarm Manager
+        Project: AMP
+        SwarmType: Manager
+        DeploymentId: "{{ aws_vpc_id }}"
+      count_tag:
+        - DeploymentId: "{{ aws_vpc_id }}"
+        - SwarmType: Manager
+      exact_count: "{{ swarm_num_managers }}"
+      user_data: "{{ lookup('template', '../templates/userdata.j2') }}"
+      assign_public_ip: yes
+      wait: yes
+    register: ec2_swarm_mgr
+ 
+  - debug: msg='Swarm Manager node IP is {{ item.public_ip }}'
+    with_items: ec2_swarm_mgr.instances
+
+  - name: Swarm worker nodes
+    ec2:
+      region: "{{ aws_region }}"
+      image: "{{ swarm_template }}"
+      vpc_subnet_id: "{{ aws_subnet_id }}"
+      profile: "{{ aws_profile }}"
+      instance_type: "{{ swarm_instance_type }}"
+      key_name: "{{ ssh_key }}"
+      group: "{{ swarm_security_group_name }}"
+      instance_tags:
+        Name: Swarm Node
+        Project: AMP
+        SwarmType: Node
+        DeploymentId: "{{ aws_vpc_id }}"
+      count_tag:
+        - DeploymentId: "{{ aws_vpc_id }}"
+        - SwarmType: Node
+      exact_count: "{{ swarm_num_workers }}"
+      user_data: "{{ lookup('template', '../templates/userdata.j2') }}"
+      assign_public_ip: yes
+      wait: yes
+    register: ec2_swarm_node
+
+  - debug: msg='Swarm Worker node IP is {{ item.public_ip }}'
+    with_items: ec2_swarm_node.instances

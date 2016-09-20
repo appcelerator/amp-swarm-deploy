@@ -1,0 +1,19 @@
+[default]
+
+[swarm_mgr]
+{% for item in ec2_swarm_mgr.instances %}
+swarm-mgr-{{ loop.index }} private_ip={{ item.private_ip }} ansible_host={{ item.public_ip }} ansible_ssh_port={{ ssh_port }}
+{% endfor %}
+
+[swarm_node]
+{% for item in ec2_swarm_node.instances %}
+swarm-node-{{ loop.index }} private_ip={{ item.private_ip }} ansible_host={{ item.public_ip }} ansible_ssh_port={{ ssh_port }}
+{% endfor %}
+
+[swarm:children]
+swarm_mgr
+swarm_node
+
+[swarm:vars]
+ansible_ssh_user={{ ec2_user }}
+ansible_ssh_private_key_file=~/.ssh/id_rsa_{{ ssh_key }}

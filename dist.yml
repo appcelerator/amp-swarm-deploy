@@ -1,0 +1,28 @@
+---
+# dist.yml
+# default configuration for the swarm playbook
+# don't change it, override variables in a custom.yml variable file instead
+
+# AWS CLI profile name
+aws_profile: default
+# AWS region
+aws_region: eu-west-1
+# VPC and subnet where instances will be deployed
+# They should already exist
+aws_vpc_id: vpc-hhhhhhhh
+aws_subnet_id: subnet-hhhhhhhh
+# Name of ssh key in AWS
+ssh_key: "swarm"
+# Name of the security group
+swarm_security_group_name: swarm
+# Number of Swarm manager nodes
+swarm_num_managers: 1
+# Number of Swarm worker nodes
+swarm_num_workers: 1
+# Instance type of the EC2 instances
+swarm_instance_type: t2.large
+
+# AMI id
+swarm_template: ami-7abd0209 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-west-1
+# OS Family of the AMI
+image_os_distribution: CentOS

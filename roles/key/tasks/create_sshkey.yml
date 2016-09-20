@@ -2,6 +2,7 @@
     ec2_key:
       name: "{{ ssh_key }}"
       region: "{{ aws_region }}"
+      profile: "{{ aws_profile }}"
       state: present
     register: ec2key
     tags: sshkey

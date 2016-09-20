@@ -1,0 +1,32 @@
+---
+- hosts: swarm
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Install Docker Service
+    service: name=docker enabled=yes
+  - name: Check Docker Engine Version
+    command: docker -v | grep -q "1.1[2-9]"
+    ignore_errors: True
+    changed_when: False
+    register: docker_version_check
+  - name: Stop Docker Service
+    service: name=docker state=stopped
+    when: docker_version_check != 0
+  - name: Download Docker 1.12
+    get_url: url=https://get.docker.com/builds/Linux/x86_64/docker-1.12.1.tgz
+             dest=/tmp/_docker.tgz
+    when: docker_version_check.rc != 0
+  - name: Untar Docker 1.12
+    unarchive: src=/tmp/_docker.tgz dest=/tmp/_docker copy=no
+    when: docker_version_check.rc != 0
+  - name: Remove Tarball
+    file: name=/tmp/_docker.tgz state=absent
+    when: docker_version_check.rc != 0
+  - name: Put new binaries in place
+    shell: mv /tmp/_docker/docker/* /usr/bin
+    when: docker_version_check.rc != 0
+  - name: Restart Docker Service
+    service: name=docker state=started
+    when: docker_version_check.rc != 0

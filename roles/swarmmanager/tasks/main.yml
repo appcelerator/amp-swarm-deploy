@@ -1,0 +1,18 @@
+  - name: Check if Swarm is initialized
+    shell: docker info | grep -q "^Swarm"':'" active"
+    register: swarm_initialized
+    changed_when: false
+    ignore_errors: True
+  - name: Init Swarm
+    shell: docker swarm init
+    tags: init
+    when: swarm_initialized|failed
+    ignore_errors: True
+  - name: Get Node Join Token
+    shell: docker swarm join-token -q worker
+    changed_when: false
+    register: node_join_token
+  - name: Export Token To A Fact
+    changed_when: false
+    set_fact:
+      node_join_token: "{{ node_join_token.stdout }}"

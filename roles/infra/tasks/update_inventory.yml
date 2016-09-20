@@ -2,4 +2,5 @@
 
   - name: Create inventory file
     template: src=inventory.j2 dest=./inventory
+    when: ec2_swarm_mgr.instances | length > 0
     tags: inventory

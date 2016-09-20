@@ -1,0 +1,7 @@
+---
+ - set_fact: ec2_user=ec2-user 
+ - set_fact: ec2_user=centos 
+   when: image_os_distribution == 'CentOS'
+ - set_fact: ec2_user=ubuntu 
+   when: image_os_distribution == 'Ubuntu'
+ - debug: msg="EC2 user is {{ ec2_user }}"

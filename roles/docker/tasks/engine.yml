@@ -1,0 +1,13 @@
+---
+  - name: install the latest version of Docker
+    package: name=docker-engine state=latest
+    retries: 3
+    delay: 10
+    register: pkg
+    until: pkg|success
+  - name: verify Docker version
+    shell: docker version
+    register: docker_version
+    changed_when: false
+    ignore_errors: true
+  - debug: msg="{{ docker_version.stdout_lines }}"
