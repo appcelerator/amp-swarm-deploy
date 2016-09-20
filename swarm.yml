@@ -6,8 +6,8 @@
     - dist.yml
     - custom.yml
   roles:
-    - {role: key, tags: infrastructure}
-    - {role: infra, tags: infrastructure}
+    - {role: key, tags: provisioning}
+    - {role: provisioning, tags: provisioning}
 
 - name: Refresh Inventory
   hosts: localhost
@@ -20,7 +20,7 @@
   hosts: swarm
   gather_facts: False
   tags:
-    - infrastructure
+    - provisioning
   tasks:
     - local_action: wait_for port=22 host="{{ ansible_host }}"  search_regex=OpenSSH delay=45 timeout=60
 

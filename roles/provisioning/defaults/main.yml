@@ -1,5 +1,5 @@
 ---
-# file: roles/infra/defaults/main.yml
+# file: roles/provisioning/defaults/main.yml
 # if not overridden in inventory or as a parameter, this is the value that will be used
 ssh_port: 22
 swarm_manager_port: 2377
