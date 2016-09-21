@@ -7,6 +7,11 @@
       instance_type: "{{ swarm_instance_type }}"
       key_name: "{{ ssh_key }}"
       group: "{{ swarm_security_group_name }}"
+      volumes:
+        - device_name: /dev/sdf
+          volume_type: gp2
+          volume_size: "{{ volume_size }}"
+          delete_on_termination: true
       instance_tags: 
         Name: Swarm Manager
         Project: AMP
@@ -33,6 +38,11 @@
       instance_type: "{{ swarm_instance_type }}"
       key_name: "{{ ssh_key }}"
       group: "{{ swarm_security_group_name }}"
+      volumes:
+        - device_name: /dev/sdf
+          volume_type: gp2
+          volume_size: "{{ volume_size }}"
+          delete_on_termination: true
       instance_tags:
         Name: Swarm Node
         Project: AMP

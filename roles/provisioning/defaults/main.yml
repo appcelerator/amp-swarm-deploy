@@ -6,3 +6,4 @@ swarm_manager_port: 2377
 flanel_overlay_network_port: 8472
 swarm_num_managers: 1
 swarm_num_workers: 3
+volume_size: 100

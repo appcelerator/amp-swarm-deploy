@@ -8,6 +8,7 @@ repo_upgrade: true
 packages:
   - ca-certificates
   - python-pip
+  - lvm2
 {% if image_os_distribution == "Ubuntu" %}
   - python-simplejson
 {% endif %}
@@ -56,15 +57,28 @@ apt_sources:
 {% if image_os_distribution == "CentOS" %}
 yum_repos:
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/$releasever/$basearch
     enabled: true
     gpgcheck: true
-    gpgkey: http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
-    name: Extra Packages for Enterprise Linux 7
-  docker:
-    baseurl: https://yum.dockerproject.org/repo/main/centos/7
+    gpgkey: http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-$releasever
+    name: Extra Packages for Enterprise Linux $releasever
+  Docker Repository:
+    baseurl: https://yum.dockerproject.org/repo/main/centos/$releasever
     enabled: true
     gpgcheck: true
     gpgkey: https://yum.dockerproject.org/gpg
     name: Docker Repository
 {% endif %}
+write_files:
+  - path: /etc/systemd/system/docker.service.d/docker.conf
+    content: |
+        [Service]
+        ExecStart=
+        ExecStart=/usr/bin/dockerd {% if image_os_distribution == "Ubuntu" %}-H fd://{% endif %} --storage-driver=devicemapper --storage-opt dm.thinpooldev=/dev/mapper/docker-thinpool --storage-opt dm.use_deferred_removal=true
+
+runcmd:
+  - [ pvcreate, /dev/xvdf ]
+  - [ vgcreate, docker, /dev/xvdf ]
+  - [ lvcreate, --wipesignatures, y, -n, thinpool, docker, -l, 95%VG ]
+  - [ lvcreate, --wipesignatures, y, -n, thinpoolmeta, docker, -l, 1%VG ]
+  - [ lvconvert, -y, --zero, n, -c, 512K, --thinpool, docker/thinpool, --poolmetadata, docker/thinpoolmeta ]
