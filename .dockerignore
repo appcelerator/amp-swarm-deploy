@@ -1,0 +1,10 @@
+Dockerfile
+LICENSE
+README.md
+inventory
+*.retry
+*.bak
+.*.swp
+custom.yml
+custom.*.yml
+

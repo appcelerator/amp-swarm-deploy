@@ -57,6 +57,7 @@ The plays can be limited with the use of tags.
  - key:           creates/get the AWS key
  - provisioning   creates the EC2 instances, the security group and updates the inventory
  - docker         updates the Docker engine, enable the service, initializes the Swarm
+ - application    installs AMP
 
 ### Adhoc commands
 ```
@@ -65,3 +66,9 @@ $ ansible -i inventory swarm -b -m shell -a "docker version | grep Version"
  Version:      1.12.1
  Version:      1.12.1
 ```
+
+## Docker image
+
+The ansible playbook can be run from a Docker container:
+
+    $ docker run appcelerator/amp-swarm-deploy
