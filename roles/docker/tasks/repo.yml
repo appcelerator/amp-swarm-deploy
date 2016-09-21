@@ -1,0 +1,31 @@
+---
+- name: Check if Centos Docker repository is already defined
+  stat: path='/etc/yum.repos.d/Docker Registry'
+  register: centos_repo_file
+  ignore_errors: true
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+- name: Add CentOS Docker repository
+  yum_repository:
+    name: Docker Repository
+    description: Docker Repository
+    baseurl: https://yum.dockerproject.org/repo/main/centos/$releasever
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://yum.dockerproject.org/gpg
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' and centos_repo_file.stat.exists == False
+
+- name: Add Ubuntu Docker repository
+  apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main"
+  retries: 3
+  delay: 10
+  register: repo 
+  until: repo|success
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Add Debian Docker repository
+  apt_repository: repo="deb https://apt.dockerproject.org/repo debian-{{ ansible_distribution_release }} main"
+  retries: 3
+  delay: 10
+  register: repo 
+  until: repo|success
+  when: ansible_distribution == 'Debian'
