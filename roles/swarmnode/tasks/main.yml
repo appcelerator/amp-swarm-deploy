@@ -4,6 +4,6 @@
     changed_when: false
     ignore_errors: True
   - name: Swarm Join
-    shell: docker swarm join "{{ hostvars[groups['swarm_mgr'][0]]['private_ip'] }}":2377 --token "{{ hostvars[groups['swarm_mgr'][0]]['node_join_token'] }}"
+    shell: docker swarm join "{{ hostvars[groups['tokens'][0]]['leader'] }}":2377 --token "{{ hostvars[groups['tokens'][0]]['worker_token'] }}"
     tags: join
     when: swarm_initialized|failed

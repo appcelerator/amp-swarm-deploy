@@ -6,13 +6,25 @@
   - name: Init Swarm
     shell: docker swarm init
     tags: init
-    when: swarm_initialized|failed
-    ignore_errors: True
-  - name: Get Node Join Token
+    when: swarm_initialized|failed and inventory_hostname == groups['swarm_mgr'][0]
+  - name: Get Manager Join Token
+    shell: docker swarm join-token -q manager
+    changed_when: false
+    register: manager_join_token
+    when: inventory_hostname == groups['swarm_mgr'][0]
+  - name: Get Worker Join Token
     shell: docker swarm join-token -q worker
     changed_when: false
-    register: node_join_token
-  - name: Export Token To A Fact
-    changed_when: false
-    set_fact:
-      node_join_token: "{{ node_join_token.stdout }}"
+    register: worker_join_token
+    when: inventory_hostname == groups['swarm_mgr'][0]
+  - name: Store Worker Token to Inventory
+    add_host: name={{ inventory_hostname }}
+              groups=tokens
+              leader={{ private_ip }}
+              manager_token={{ manager_join_token.stdout }}
+              worker_token={{ worker_join_token.stdout }}
+    when: inventory_hostname == groups['swarm_mgr'][0] and worker_join_token is defined
+  - name: Swarm Manager Join
+    shell: docker swarm join "{{ hostvars[groups['tokens'][0]]['leader'] }}":2377 --token "{{ hostvars[groups['tokens'][0]]['manager_token'] }}"
+    tags: join
+    when: swarm_initialized|failed and inventory_hostname != groups['swarm_mgr'][0]
