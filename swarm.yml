@@ -24,7 +24,7 @@
   tags:
     - provisioning
   tasks:
-    - local_action: wait_for port=22 host="{{ ansible_host }}"  search_regex=OpenSSH delay=45 timeout=60
+    - local_action: wait_for port=22 host="{{ ansible_host }}"  search_regex=OpenSSH delay=60 timeout=90
 
 - name: Install Docker 1.12
   hosts: swarm
@@ -36,10 +36,10 @@
   hosts: swarm_mgr
   become: yes
   roles:
-    - {role: swarmmanager, tags: docker}
+    - {role: swarmmanager, tags: ["docker", "swarm"]}
 
 - name: Setup Swarm nodes
   hosts: swarm_node
   become: yes
   roles:
-    - {role: swarmnode, tags: docker}
+    - {role: swarmnode, tags: ["docker", "swarm"]}
