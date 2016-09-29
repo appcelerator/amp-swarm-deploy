@@ -33,6 +33,8 @@ swarm_num_managers | Number of Swarm Manager Nodes | 1
 swarm_num_workers | Number of Swarm Manager Workers | 1
 swarm_instance_type | EC2 Instance Type | t2.medium
 volume_size | Size Of The Docker Devicemapper Volume (GB) | 100
+amp_base_directory | Base Directory For the Swarm Script | /go/src/github.com/appcelerator
+amp_branch | Git Branch of The AMP repo | master
 
 # AMI id
 swarm_template: ami-7abd0209 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-west-1
