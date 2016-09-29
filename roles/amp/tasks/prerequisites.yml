@@ -1,8 +1,6 @@
 ---
-  - name: install git
-    package: name=git state=latest
   - name: prepare amp directory
-    file: path="{{ amp_base_directory }}" state=directory mode=0755
+    file: path="{{ amp_base_directory }}/amp" state=directory mode=0755
   - name: prepare docker config directory
     file: path=/root/.docker state=directory owner=root mode=0700
   - name: credentials for AMP images

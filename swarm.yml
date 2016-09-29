@@ -44,7 +44,7 @@
   roles:
     - {role: swarmnode, tags: ["docker", "swarm"]}
 
-- hosts: swarm_mgr
+- hosts: swarm
   become: yes
   vars_files:
     - dist.yml

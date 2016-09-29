@@ -4,19 +4,23 @@
     args:
       chdir: "{{ amp_base_directory }}/amp/"
     register: amp_is_started
+    changed_when: false
     ignore_errors: True
+    when: inventory_hostname == groups['swarm_mgr'][0]
   - name: Pull AMP images
     shell: ./swarm pull
     args:
       chdir: "{{ amp_base_directory }}/amp/"
-    when: amp_is_started|failed
+    async: 600
+    poll: 10
+    changed_when: false
   - name: start AMP
     shell: ./swarm start
     args:
       chdir: "{{ amp_base_directory }}/amp/"
-    when: amp_is_started|failed
+    when: inventory_hostname == groups['swarm_mgr'][0] and amp_is_started|failed
   - name: restart AMP
     shell: ./swarm stop ; sleep 10 ; ./swarm start
     args:
       chdir: "{{ amp_base_directory }}/amp/"
-    when: amp_is_started|success
+    when: inventory_hostname == groups['swarm_mgr'][0] and amp_is_started|success
