@@ -2,8 +2,12 @@
 # file: roles/provisioning/defaults/main.yml
 # if not overridden in inventory or as a parameter, this is the value that will be used
 ssh_port: 22
-swarm_manager_port: 2377
-flanel_overlay_network_port: 8472
+# tcp
+swarm_cluster_management_port: 2377
+# tcp and udp
+swarm_node_communication_port: 7946
+# tcp and udp
+swarm_overlay_traffic_port: 4789
 swarm_num_managers: 1
 swarm_num_workers: 3
 volume_size: 100

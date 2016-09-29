@@ -12,25 +12,43 @@
           to_port: "{{ ssh_port }}"
           cidr_ip: 0.0.0.0/0
         - proto: tcp
-          from_port: "{{ swarm_manager_port }}"
-          to_port: "{{ swarm_manager_port }}"
+          from_port: "{{ swarm_cluster_management_port }}"
+          to_port: "{{ swarm_cluster_management_port}}"
           group_name: "{{ swarm_security_group_name }}"
-        - proto: -1
+        - proto: tcp
+          from_port: "{{ swarm_node_communication_port }}"
+          to_port: "{{ swarm_node_communication_port }}"
+          group_name: "{{ swarm_security_group_name }}"
+        - proto: udp
+          from_port: "{{ swarm_node_communication_port }}"
+          to_port: "{{ swarm_node_communication_port }}"
+          group_name: "{{ swarm_security_group_name }}"
+        - proto: tcp
+          from_port: "{{ swarm_overlay_traffic_port }}"
+          to_port: "{{ swarm_overlay_traffic_port }}"
+          group_name: "{{ swarm_security_group_name }}"
+        - proto: udp
+          from_port: "{{ swarm_overlay_traffic_port }}"
+          to_port: "{{ swarm_overlay_traffic_port }}"
           group_name: "{{ swarm_security_group_name }}"
         - proto: tcp
           from_port: 80
           to_port: 80
           cidr_ip: 0.0.0.0/0
         - proto: tcp
+          from_port: 443
+          to_port: 443
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
           from_port: 8080
           to_port: 8080
           cidr_ip: 0.0.0.0/0
       rules_egress:
-        - proto: udp
-          from_port: "{{ flanel_overlay_network_port }}"
-          to_port: "{{ flanel_overlay_network_port }}"
-          group_name: "{{ swarm_security_group_name }}"
         - proto: tcp
+          from_port: 0
+          to_port: 65535
+          cidr_ip: 0.0.0.0/0
+        - proto: udp
           from_port: 0
           to_port: 65535
           cidr_ip: 0.0.0.0/0
