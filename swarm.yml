@@ -29,6 +29,9 @@
 - name: Install Docker 1.12
   hosts: swarm
   become: yes
+  vars_files:
+    - dist.yml
+    - custom.yml
   roles:
     - {role: docker, tags: docker}
 
