@@ -28,7 +28,7 @@
     register: ec2_swarm_mgr
 
   - debug: msg='Swarm Manager node IP is {{ item.public_ip }}'
-    with_items: ec2_swarm_mgr.instances
+    with_items: "{{ ec2_swarm_mgr.instances }}"
 
   - name: Swarm worker nodes
     ec2:
@@ -59,4 +59,4 @@
     register: ec2_swarm_node
 
   - debug: msg='Swarm Worker node IP is {{ item.public_ip }}'
-    with_items: ec2_swarm_node.instances
+    with_items: "{{ ec2_swarm_node.instances }}"
