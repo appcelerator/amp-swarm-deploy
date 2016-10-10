@@ -11,3 +11,4 @@ swarm_overlay_traffic_port: 4789
 swarm_num_managers: 1
 swarm_num_workers: 3
 volume_size: 100
+docker_repo_channel: main

@@ -1,7 +1,7 @@
 ---
   - name: Swarm Security Group
     ec2_group:
-      name: "{{ swarm_security_group_name }}" 
+      name: "{{ swarm_security_group_name }}"
       description: "swarm security group"
       profile: "{{ aws_profile }}"
       region: "{{ aws_region }}"

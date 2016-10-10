@@ -2,6 +2,8 @@
 
 The main playbook creates a cluster of EC2 instances on AWS, makes sure Docker 1.12+ is installed, and initializes Swarm on it.
 
+It requires Ansible version 2.1+, please check on Ansible web site for the upgrade procedure appropriate for your system.
+
 ## Amazon resources
 
 The key and infrastructure roles will create a ssh key, a security group and EC2 instances on AWS.
@@ -30,6 +32,7 @@ swarm_num_managers | Number of Swarm Manager Nodes | 1
 swarm_num_workers | Number of Swarm Manager Workers | 1
 swarm_instance_type | EC2 Instance Type | t2.medium
 volume_size | Size Of The Docker Devicemapper Volume (GB) | 100
+docker_repo_channel | Channel of the Docker repo (main | testing | experimental) | main
 
 # AMI id
 swarm_template: ami-7abd0209 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-west-1

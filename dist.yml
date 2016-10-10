@@ -22,6 +22,9 @@ swarm_num_workers: 1
 # Instance type of the EC2 instances
 swarm_instance_type: t2.medium
 
+# docker repo channel: main | testing | experimental
+docker_repo_channel: main
+
 # AMI id
 swarm_template: ami-7abd0209 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-west-1
 # OS Family of the AMI

@@ -1,31 +1,42 @@
 ---
 - name: Check if Centos Docker repository is already defined
-  stat: path='/etc/yum.repos.d/Docker Registry'
-  register: centos_repo_file
+  shell: "yum repolist enabled | grep -qi docker"
+  register: centos_repo
   ignore_errors: true
+  changed_when: false
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
 - name: Add CentOS Docker repository
   yum_repository:
     name: Docker Repository
     description: Docker Repository
-    baseurl: https://yum.dockerproject.org/repo/main/centos/$releasever
+    baseurl: "https://yum.dockerproject.org/repo/{{ docker_repo_channel }}/centos/$releasever"
     enabled: true
     gpgcheck: true
     gpgkey: https://yum.dockerproject.org/gpg
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' and centos_repo_file.stat.exists == False
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' and centos_repo|failed
 
-- name: Add Ubuntu Docker repository
-  apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main"
+- name: Check if Ubuntu Docker repository is already defined
+  shell: "apt-cache policy | grep dockerproject.org | grep -q /{{ docker_repo_channel }}"
   retries: 3
-  delay: 10
-  register: repo 
-  until: repo|success
+  delay: 2
+  register: ubuntu_repo
+  ignore_errors: true
+  changed_when: false
   when: ansible_distribution == 'Ubuntu'
 
-- name: Add Debian Docker repository
-  apt_repository: repo="deb https://apt.dockerproject.org/repo debian-{{ ansible_distribution_release }} main"
+- name: Add Ubuntu Docker repository
+  apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} {{ docker_repo_channel }}"
   retries: 3
   delay: 10
-  register: repo 
+  register: repo
+  until: repo|success
+  when: ansible_distribution == 'Ubuntu' and ubuntu_repo|failed
+
+- name: Add Debian Docker repository
+  apt_repository: repo="deb https://apt.dockerproject.org/repo debian-{{ ansible_distribution_release }} {{ docker_repo_channel }}"
+  retries: 3
+  delay: 10
+  register: repo
   until: repo|success
   when: ansible_distribution == 'Debian'
