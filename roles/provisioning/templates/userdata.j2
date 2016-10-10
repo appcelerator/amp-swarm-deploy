@@ -21,7 +21,7 @@ pip:
   - name: docker-py
 {% if image_os_distribution == "Ubuntu" %}
 apt_sources:
-  - source: deb https://apt.dockerproject.org/repo ubuntu-xenial main 
+  - source: deb https://apt.dockerproject.org/repo ubuntu-xenial {{ docker_repo_channel }} 
     key: |
       -----BEGIN PGP PUBLIC KEY BLOCK-----
       
@@ -63,7 +63,7 @@ yum_repos:
     gpgkey: http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-$releasever
     name: Extra Packages for Enterprise Linux $releasever
   Docker Repository:
-    baseurl: https://yum.dockerproject.org/repo/main/centos/$releasever
+    baseurl: https://yum.dockerproject.org/repo/{{ docker_repo_channel }}/centos/$releasever
     enabled: true
     gpgcheck: true
     gpgkey: https://yum.dockerproject.org/gpg
