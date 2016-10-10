@@ -23,7 +23,7 @@ swarm_num_workers: 2
 swarm_instance_type: t2.medium
 
 # docker repo channel: main | testing | experimental
-docker_repo_channel: main
+docker_repo_channel: testing
 
 # AMI id
 swarm_template: ami-7abd0209 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-west-1
