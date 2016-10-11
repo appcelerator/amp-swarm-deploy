@@ -1,0 +1,15 @@
+---
+- name: tests
+  shell: make test
+  args:
+    chdir: "{{ amp_base_directory }}/amp/"
+  environment:
+    GOPATH: /go
+    PATH: "{{ ansible_env.PATH }}:/go/bin"
+  register: tests
+  no_log: true
+  ignore_errors: true
+  when: inventory_hostname == groups['swarm_mgr'][0]
+
+- debug: var=tests.stdout_lines
+  when: tests|failed

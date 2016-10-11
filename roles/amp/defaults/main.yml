@@ -3,3 +3,9 @@
 # if not overridden in inventory or as a parameter, this is the value that will be used
 amp_base_directory: /go/src/github.com/appcelerator
 amp_branch: master
+# production: only deploy what is needed to run AMP
+# test: deploys everything needed to test AMP
+amp_mode: production
+# expected version of golang
+go_version: 1.7.1
+go_platform: linux-amd64

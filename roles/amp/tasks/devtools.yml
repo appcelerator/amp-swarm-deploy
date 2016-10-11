@@ -1,0 +1,56 @@
+---
+  - name: install git
+    package: name=git state=latest
+  - name: prepare amp base directory
+    file: path="{{ amp_base_directory }}" state=directory mode=0755
+  - name: prepare gopath
+    file: path=/go/bin state=directory owner=root mode=0700
+  - name: prepare docker config directory
+    file: path=/root/.docker state=directory owner=root mode=0700
+  - name: credentials for AMP images
+    template: src=docker-config.json dest=/root/.docker/config.json
+    when: registry_auth is defined
+  - name: check if go is installed
+    shell: "go version | grep -q go{{ go_version }}"
+    environment:
+      PATH: "{{ ansible_env.PATH }}:/go/bin"
+    register: go_current_version
+    changed_when: false
+    ignore_errors: true
+  - name: download go
+    get_url:
+      url: "https://storage.googleapis.com/golang/go{{ go_version }}.{{ go_platform }}.tar.gz"
+      dest: /tmp/go.tgz
+    when: go_current_version|failed
+  - name: install go
+    unarchive:
+      src: /tmp/go.tgz
+      dest: /usr/local
+      copy: no
+    when: go_current_version|failed
+  - name: update /usr/local/bin/go symlink
+    file: src=/usr/local/go/bin/go dest=/usr/local/bin/go state=link
+    when: go_current_version|failed
+  - name: check if glide is installed
+    shell: glide -v
+    environment:
+      PATH: "{{ ansible_env.PATH }}:/go/bin"
+    register: glide_version
+    changed_when: false
+    ignore_errors: true
+  - name: download glide
+    get_url:
+      url: https://glide.sh/get
+      dest: /tmp/glide.sh
+    when: glide_version|failed
+  - name: glide install permissions
+    file:
+      path: /tmp/glide.sh
+      mode: 0700
+    when: glide_version|failed
+  - name: install glide
+    shell: /tmp/glide.sh
+    environment:
+      GOPATH: /go
+      PATH: "{{ ansible_env.PATH }}:/go/bin"
+    when: glide_version|failed
