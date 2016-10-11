@@ -1,7 +1,6 @@
 ---
-  - name: download swarm script
-    get_url:
-      url: "https://raw.githubusercontent.com/appcelerator/amp/{{ amp_branch }}/swarm"
-      dest: "{{ amp_base_directory }}/amp/swarm"
-      force: yes
-      mode: 0750
+  - name: Clone AMP git repo
+    git: repo=https://github.com/appcelerator/amp.git
+      dest="{{ amp_base_directory }}/amp"
+      version="{{ amp_branch }}"
+      force=yes
