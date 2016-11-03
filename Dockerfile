@@ -1,4 +1,4 @@
-FROM appcelerator/alpine:20160726
+FROM appcelerator/alpine:20160928
 
 RUN apk update && apk upgrade && apk add ansible && rm -rf /var/cache/apk/*
 
