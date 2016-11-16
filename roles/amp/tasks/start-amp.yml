@@ -1,26 +1,27 @@
 ---
   - name: Check if AMP is already started
-    shell: ./swarm ls | grep -q "amplifier"
-    args:
-      chdir: "{{ amp_base_directory }}/amp/"
+    shell: docker service ls | grep -q "amplifier"
     register: amp_is_started
     changed_when: false
     ignore_errors: True
     when: inventory_hostname == groups['swarm_mgr'][0]
   - name: Pull AMP images
-    shell: ./swarm pull
-    args:
-      chdir: "{{ amp_base_directory }}/amp/"
+    shell: amp platform pull
+    environment:
+      GOPATH: /go
+      PATH: "{{ ansible_env.PATH }}:/go/bin"
     async: 600
     poll: 10
     changed_when: false
   - name: start AMP
-    shell: ./swarm start
-    args:
-      chdir: "{{ amp_base_directory }}/amp/"
+    shell: amp platform start
+    environment:
+      GOPATH: /go
+      PATH: "{{ ansible_env.PATH }}:/go/bin"
     when: inventory_hostname == groups['swarm_mgr'][0] and amp_is_started|failed
   - name: restart AMP
-    shell: ./swarm stop ; sleep 10 ; ./swarm start
-    args:
-      chdir: "{{ amp_base_directory }}/amp/"
+    shell: amp platform stop ; sleep 10 ; amp platform start
+    environment:
+      GOPATH: /go
+      PATH: "{{ ansible_env.PATH }}:/go/bin"
     when: inventory_hostname == groups['swarm_mgr'][0] and amp_is_started|success
