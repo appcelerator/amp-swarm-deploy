@@ -2,6 +2,9 @@
 # custom.yml
 # Override variables defined in default.yml
 
+# AMP branch to deploy
+amp_branch: cmd-start
+
 # AWS CLI profile name
 aws_profile: default
 
@@ -10,8 +13,11 @@ aws_region: eu-central-1
 
 # VPC and subnet where instances will be deployed
 # They should already exist
-aws_vpc_id: vpc-ebf10d83
-aws_subnet_id: subnet-3ea21156
+aws_vpc_id: vpc-e23ec08a
+aws_subnet_id: subnet-584af730
+
+# docker repo channel: main | testing | experimental
+docker_repo_channel: main
 
 # Name of ssh key in AWS
 ssh_key: "swarm"
@@ -20,16 +26,13 @@ ssh_key: "swarm"
 swarm_security_group_name: swarm
 
 # Number of Swarm manager nodes
-swarm_num_managers: 1
+swarm_num_managers: 2
 
 # Number of Swarm worker nodes
-swarm_num_workers: 2
+swarm_num_workers: 3
 
 # Instance type of the EC2 instances
-swarm_instance_type: t2.medium
-
-# docker repo channel: main | testing | experimental
-docker_repo_channel: testing
+swarm_instance_type: t2.large
 
 # AMI id
 swarm_template: ami-9bf712f4 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-central-1
