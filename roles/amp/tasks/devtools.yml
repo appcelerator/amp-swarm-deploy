@@ -13,7 +13,7 @@
   - name: check if go is installed
     shell: "go version | grep -q go{{ go_version }}"
     environment:
-      PATH: "{{ ansible_env.PATH }}:/go/bin"
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
     register: go_current_version
     changed_when: false
     ignore_errors: true
@@ -52,5 +52,5 @@
     shell: /tmp/glide.sh
     environment:
       GOPATH: /go
-      PATH: "{{ ansible_env.PATH }}:/go/bin"
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
     when: glide_version|failed

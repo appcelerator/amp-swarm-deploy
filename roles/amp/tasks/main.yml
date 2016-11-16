@@ -15,5 +15,5 @@
   when: amp_mode == "test" and inventory_hostname == groups['swarm_mgr'][0]
 - include: test.yml
   when: amp_mode == "test" and inventory_hostname == groups['swarm_mgr'][0]
-- include: clitest.yml
+- include: cli-test.yml
   when: amp_mode == "test" and inventory_hostname == groups['swarm_mgr'][0]
