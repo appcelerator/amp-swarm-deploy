@@ -18,13 +18,13 @@
     - name: Refresh Inventory
       meta: refresh_inventory
 
-- name: Wait for remote hosts
+- name: Wait for remote hosts availability
   hosts: swarm
   gather_facts: False
   tags:
     - provisioning
   tasks:
-    - local_action: wait_for port=22 host="{{ ansible_host }}"  search_regex=OpenSSH delay=60 timeout=90
+    - local_action: wait_for port=22 host="{{ ansible_host }}"  search_regex=OpenSSH delay=120 timeout=150
 
 - name: Install Docker 1.12
   hosts: swarm
