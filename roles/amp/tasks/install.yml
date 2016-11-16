@@ -10,11 +10,11 @@
     chdir: "{{ amp_base_directory }}/amp/"
   environment:
     GOPATH: /go
-    PATH: "{{ ansible_env.PATH }}:/go/bin"
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
 - name: make install
   shell: make install
   args:
     chdir: "{{ amp_base_directory }}/amp/"
   environment:
     GOPATH: /go
-    PATH: "{{ ansible_env.PATH }}:/go/bin"
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"

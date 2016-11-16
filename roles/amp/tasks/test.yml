@@ -5,7 +5,7 @@
     chdir: "{{ amp_base_directory }}/amp/"
   environment:
     GOPATH: /go
-    PATH: "{{ ansible_env.PATH }}:/go/bin"
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
   register: tests
   no_log: true
   ignore_errors: true
