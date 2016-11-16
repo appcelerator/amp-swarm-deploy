@@ -12,3 +12,5 @@ swarm_num_managers: 1
 swarm_num_workers: 3
 volume_size: 100
 docker_repo_channel: main
+# EC2 instances will be tagged with the Project key
+ec2_project_tag: AMP

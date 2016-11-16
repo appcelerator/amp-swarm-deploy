@@ -30,6 +30,7 @@ aws_region | AWS Region | eu-west-1
 aws_vpc_id | VPC Id |
 aws_subnet_id | Subnet Id |
 ssh_key | Name of The AWS Ssh Key  | swarm
+ec2_project_tag | Value of EC2 instance Project tag | AMP
 swarm_security_group_name | Security Group Name | swarm
 swarm_num_managers | Number of Swarm Manager Nodes | 1
 swarm_num_workers | Number of Swarm Manager Workers | 1
