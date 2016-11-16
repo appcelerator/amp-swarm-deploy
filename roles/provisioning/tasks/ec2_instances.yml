@@ -15,7 +15,7 @@
           delete_on_termination: true
       instance_tags:
         Name: Swarm Manager
-        Project: AMP
+        Project: "{{ ec2_project_tag }}"
         SwarmType: Manager
         DeploymentId: "{{ aws_vpc_id }}"
       count_tag:
@@ -46,7 +46,7 @@
           delete_on_termination: true
       instance_tags:
         Name: Swarm Node
-        Project: AMP
+        Project: "{{ ec2_project_tag }}"
         SwarmType: Node
         DeploymentId: "{{ aws_vpc_id }}"
       count_tag:

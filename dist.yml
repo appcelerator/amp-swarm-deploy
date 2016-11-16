@@ -21,6 +21,8 @@ swarm_num_managers: 1
 swarm_num_workers: 2
 # Instance type of the EC2 instances
 swarm_instance_type: t2.medium
+# EC2 Project tag
+ec2_project_tag: AMP
 
 # docker repo channel: main | testing | experimental
 docker_repo_channel: main
