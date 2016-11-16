@@ -21,11 +21,16 @@ swarm_num_managers: 1
 swarm_num_workers: 2
 # Instance type of the EC2 instances
 swarm_instance_type: t2.medium
+# EC2 Project tag
+ec2_project_tag: AMP
 
 # docker repo channel: main | testing | experimental
-docker_repo_channel: testing
+docker_repo_channel: main
 
 # AMI id
 swarm_template: ami-7abd0209 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-west-1
 # OS Family of the AMI
 image_os_distribution: CentOS
+
+amp_mode: production
+go_version: 1.7.3
