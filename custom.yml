@@ -14,8 +14,8 @@ aws_region: eu-central-1
 
 # VPC and subnet where instances will be deployed
 # They should already exist
-aws_vpc_id: vpc-4903fd21
-aws_subnet_id: subnet-6a0ab702
+aws_vpc_id: vpc-f44cb79d
+aws_subnet_id: subnet-02c62979
 
 # docker repo channel: main | testing | experimental
 docker_repo_channel: main
