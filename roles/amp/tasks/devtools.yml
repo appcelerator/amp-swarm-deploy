@@ -1,4 +1,6 @@
 ---
+  - name: install gcc
+    package: name=gcc state=latest
   - name: install git
     package: name=git state=latest
   - name: prepare amp base directory
