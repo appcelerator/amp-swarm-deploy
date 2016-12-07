@@ -1,16 +1,4 @@
 ---
-- name: cleanup vendor
-  shell: test -d vendor && rm -rf vendor
-  args:
-    chdir: "{{ amp_base_directory }}/amp/"
-  ignore_errors: true
-- name: glide install
-  shell: glide install
-  args:
-    chdir: "{{ amp_base_directory }}/amp/"
-  environment:
-    GOPATH: /go
-    PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
 - name: make install
   shell: make install
   args:
