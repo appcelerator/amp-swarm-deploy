@@ -33,5 +33,5 @@ swarm_template: ami-7abd0209 # CentOS Linux 7 x86_64 HVM EBS 1602 eu-west-1
 image_os_distribution: CentOS
 
 amp_mode: production
-go_version: 1.7.3
+go_version: 1.7.4
 amp_branch: v0.3.0
