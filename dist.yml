@@ -34,3 +34,4 @@ image_os_distribution: CentOS
 
 amp_mode: production
 go_version: 1.7.3
+amp_branch: v0.3.0
