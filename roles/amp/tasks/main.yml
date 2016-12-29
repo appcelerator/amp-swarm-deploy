@@ -1,11 +1,5 @@
 ---
-#- include: runtools.yml - for now we still have to build the binaries
-#  when: amp_mode == "production" or inventory_hostname != groups['swarm_mgr'][0]
-#- include: clone-amp-runtime.yml
-#  when: amp_mode == "production" and inventory_hostname == groups['swarm_mgr'][0]
-- include: devtools.yml
-  when: amp_mode == "production"
-- include: clone-amp-repo.yml
+- include: get-amp-runtime.yml
   when: amp_mode == "production"
 
 - include: devtools.yml
@@ -14,8 +8,7 @@
   when: amp_mode == "test" and inventory_hostname == groups['swarm_mgr'][0]
 
 - include: install.yml
-#  when: inventory_hostname == groups['swarm_mgr'][0]
-#  when: amp_mode == "test" and inventory_hostname == groups['swarm_mgr'][0]
+  when: amp_mode == "test" and inventory_hostname == groups['swarm_mgr'][0]
 
 - include: sysctl.yml
 

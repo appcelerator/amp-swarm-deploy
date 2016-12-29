@@ -1,0 +1,20 @@
+---
+  - name: download amp binaries
+    get_url:
+      url: "http://get.amp.appcelerator.io/builds/Linux/x86_64/amp-{{amp_version}}.tgz"
+      dest: /tmp/amp.tgz
+      force: yes
+      mode: 0750
+  - name: install amp binaries
+    unarchive:
+      src: /tmp/amp.tgz
+      dest: /usr/local/bin
+      copy: no
+  - name: get amp version
+    shell: amp --version
+    environment:
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+    register: amp_version
+    changed_when: false
+    ignore_errors: true
+  - debug: msg="{{ amp_version.stdout_lines }}"

@@ -9,7 +9,7 @@
     shell: amp platform pull
     environment:
       GOPATH: /go
-      PATH: "{{ ansible_env.PATH }}:/go/bin"
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
     async: 600
     poll: 10
     changed_when: false
@@ -17,11 +17,17 @@
     shell: amp platform start
     environment:
       GOPATH: /go
-      PATH: "{{ ansible_env.PATH }}:/go/bin"
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
     when: inventory_hostname == groups['swarm_mgr'][0] and amp_is_started|failed
   - name: restart AMP
     shell: amp platform stop ; sleep 10 ; amp platform start
     environment:
       GOPATH: /go
-      PATH: "{{ ansible_env.PATH }}:/go/bin"
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
     when: inventory_hostname == groups['swarm_mgr'][0] and amp_is_started|success
+  - name: get amp status
+    shell: amp --version
+    environment:
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
+    changed_when: false
+    ignore_errors: true
