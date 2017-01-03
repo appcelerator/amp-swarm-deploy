@@ -17,6 +17,8 @@
 #  when: inventory_hostname == groups['swarm_mgr'][0]
 #  when: amp_mode == "test" and inventory_hostname == groups['swarm_mgr'][0]
 
+- include: sysctl.yml
+
 - include: start-amp.yml
 
 - include: test.yml
