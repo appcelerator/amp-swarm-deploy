@@ -43,6 +43,10 @@
           from_port: 8080
           to_port: 8080
           cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 31315
+          to_port: 31315
+          cidr_ip: 0.0.0.0/0
       rules_egress:
         - proto: tcp
           from_port: 0
