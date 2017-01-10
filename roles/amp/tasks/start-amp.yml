@@ -1,4 +1,16 @@
 ---
+  - name: Check if AMP cluster services are already defined
+    shell: docker service ls | grep -q "amp-server"
+    register: cluster_is_started
+    changed_when: false
+    ignore_errors: True
+    when: inventory_hostname == groups['swarm_mgr'][0]
+  - name: install cluster services
+    shell: ampadm cluster start
+    environment:
+      GOPATH: /go
+      PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/go/bin"
+    when: inventory_hostname == groups['swarm_mgr'][0] and cluster_is_started|failed
   - name: Check if AMP is already started
     shell: docker service ls | grep -q "amplifier"
     register: amp_is_started
